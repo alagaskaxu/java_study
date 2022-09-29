@@ -33,10 +33,12 @@ public class staticTest {
 
     public static void main(String[] args) {
         //static定义的方法和属性不需要new对象,可以直接调用
+        printfSchool();
         staticTest.printfSchool();
         //调用普通方法要先new对象
         staticTest t1 = new staticTest();
-        t1.login(); //t1对象也不能调用static的内容
+        t1.login(); //t1对象也能调用static的内容
+        t1.printfSchool();
 
         staticTest.school = "苏州工业园区";
         staticTest.printfSchool();
