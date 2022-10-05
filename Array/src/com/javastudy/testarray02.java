@@ -19,7 +19,7 @@ public class testarray02 {
             System.out.println("-------");
         }
 
-        //静态初始化
+        //引用类数组静态初始化
         User[] user2 = {new User(2001,"李四"),new User(2002,"王五"),new User(2002,"David")};
         System.out.println("--输出user2数组元素--");
         //for-each,强化for循环遍历数组元素
