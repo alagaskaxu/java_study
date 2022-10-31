@@ -17,5 +17,9 @@ public class Outer2 {
             //System.out.println(a);    //静态内部类不能访问外部类的普通属性/方法
             System.out.println(b);  //静态内部类可以访问外部类的静态属性/方法
         }
+
+        public static void main(String[] args) {
+            Inner2 in2 =new Inner2();
+        }
     }
 }

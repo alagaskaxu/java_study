@@ -6,7 +6,7 @@ public class testA {
         //c.check();  //check被private修饰,对象也无法调用,实现了安全性
         c.addOil();     //default修饰,同一包内访问
         c.autoLighten();    //protected修饰,同一包内和不同包的子类可以访问
-        c.run();        //任何包内的任何类都可以访问
+        c.run();        //public 任何包内的任何类都可以访问
 
         System.out.println("--------");
         BYD byd = new BYD();

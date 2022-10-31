@@ -56,21 +56,24 @@ public class OverloadDemo
     {
         System.out.println("int");
     }
-    public static void printMsg(Integer i)
-    {
-        System.out.println("Integer");
-    }
-    public static void  printMsg(Object ob)
+    public static void printMsg(Object ob)
     {
         System.out.println("Object");
+    }
+    public static void  printMsg(Integer Ii)
+    {
+        System.out.println("Integer");
     }
 
     public static void main(String[] args) {
         OverloadDemo.printMsg(1);   //int
         printMsg(1);    //int
-        printMsg(new Integer(1));   //Integer
+        printMsg(new Integer(1));   //In                  teger
+        System.out.println("=====");
+        printMsg(new Object());     //Object
         Object ob = null;   //null不能赋值给基本数据类型,只能赋值给引用类型
         printMsg(null);  //Integer
+        printMsg(ob);       //Object
     }
 
 }
