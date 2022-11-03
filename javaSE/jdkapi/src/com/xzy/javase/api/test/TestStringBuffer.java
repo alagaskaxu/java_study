@@ -21,6 +21,7 @@ public class TestStringBuffer {
         strBuf.append(true);//同上't','r'
         strBuf.append(3.14);
         strBuf.append("abc");//还是按字符向末尾添加'a','b','c'
+        strBuf.appendCodePoint(97); //以编码值添加 97 => a
         //toString() 获取缓冲区所有的字符,返回一个String对象
         String str = strBuf.toString();
         System.out.println(str);

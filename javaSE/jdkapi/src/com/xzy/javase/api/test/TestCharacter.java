@@ -1,5 +1,9 @@
 package com.xzy.javase.api.test;
 
+/**
+ * 基本数据类型的包装类(引用类)
+ * char => Character
+ */
 public class TestCharacter {
     public static void main(String[] args) {
         Character ch = new Character('a');
