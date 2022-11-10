@@ -3,6 +3,7 @@ package com.xzy.javase.collection.test;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Map接口
@@ -88,6 +89,31 @@ public class TestHashMap {
         for (String k:cityMap.keySet()) {
             String value = cityMap.get(k);    //根据key得到value
             System.out.println(k+"="+value);
+        }
+
+        // Entry是Map内部接口,HashMap内部类,用来存放一组键值对
+        //Map.Entry<key的类型,value的类型>是Map的内部接口
+        //HashMap.Entry<key,value>是HashMap的内部类
+        //方法四:获取所有键值对(Entry)的迭代器.
+        System.out.println("==Entry迭代器,entry.getkey/value==");
+        Iterator<Map.Entry<String,String>> entryIter = cityMap.entrySet().iterator();
+        while (entryIter.hasNext())
+        {
+            Map.Entry<String,String> entry = entryIter.next();
+            String key = entry.getKey();
+            String value = entry.getValue();
+            System.out.println(key+"--"+value);
+        }
+
+        //方法五:遍历HashMap中的Entry(键值对)内部类;Entry对象里存放着键值对的key和value;
+        Set<Map.Entry<String,String>> entrySet = cityMap.entrySet();    //entrySet将Entry内部类作为key类型存放在set里
+        System.out.println("key类型为Entry的set类:"+entrySet);   //set<key的类型>,set类只会存放key不会有value,利用Entry直接存放一组键值对Entry对象
+        System.out.println("==entrySet()方法,entry.getkey/value==");
+        for (Map.Entry<String,String> entry:entrySet)
+        {
+            String key = entry.getKey();
+            String value = entry.getValue();
+            System.out.println(key+"-->"+value);
         }
 
     }
