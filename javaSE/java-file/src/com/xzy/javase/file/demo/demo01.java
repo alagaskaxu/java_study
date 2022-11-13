@@ -3,7 +3,7 @@ package com.xzy.javase.file.demo;
 import java.io.File;
 
 /**
- * 文件的删除
+ * 文件和目录的删除
  */
 public class demo01 {
     public static void main(String[] args) {

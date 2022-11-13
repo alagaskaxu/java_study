@@ -21,7 +21,7 @@ public class Demo03 {
             throw new IllegalArgumentException("无效的月份");
         }
         Calendar c = Calendar.getInstance();
-        //设置特点日期,本月第一天
+        //设置特定日期,本月第一天
         c.set(year,month-1,1);
         //本月第一天为星期几
         int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
@@ -85,6 +85,5 @@ public class Demo03 {
         x%=MIN_MILLIS;
         long seconds = x/SEC_MILLIS;
         System.out.println(String.format("剩余%d天%d小时%d分钟%d秒",days,hours,minutes,seconds));
-
     }
 }
