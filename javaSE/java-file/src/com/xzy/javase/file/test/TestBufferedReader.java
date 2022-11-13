@@ -6,7 +6,7 @@ import java.io.IOException;
 
 /**
  * 带缓冲区的 字符读取 Reader类
- *  BufferedReader
+ *  BufferedReader , 是FileReader功能上的延伸
  *  自带缓冲区,read()方法差不多
  *  还可以直接读一行字符文本 readLine() 返回String
  */
