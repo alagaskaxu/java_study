@@ -7,7 +7,7 @@ import com.xzy.javase.thread.entity.Store;
  */
 public class Customer3Thread extends Thread{
     /**
-     * 商品
+     * 商店
      */
     private Store store;
 
