@@ -6,7 +6,10 @@ import java.io.InputStreamReader;
 import java.sql.SQLOutput;
 
 /**
+ * InputStreamReader类
+ * 是从字节流到字符流的桥接器:它使用指定的字符集读取字节流并将它们解码为字符流
  * 字节流转成字符流
+ * 转成一个字符为单位
  * 从控制台读取字符
  */
 public class TestInputStreamReader {

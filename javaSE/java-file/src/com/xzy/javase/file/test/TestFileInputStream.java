@@ -1,10 +1,15 @@
 package com.xzy.javase.file.test;
 
-import java.io.File;
+
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+/**
+ * FileInputStream 继承于 InputStream
+ * 文件 字节输入流
+ * 以Byte字节(8位二进制)为单位 读取文件中的二进制数据
+ */
 public class TestFileInputStream {
     public static void main(String[] args){
         test02();

@@ -4,6 +4,11 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
+/**
+ * FileOutputStream 继承于 OutputStream
+ * 文件输出字节流
+ * 以Byte字节(8位二进制)为单位 向文件中写入二进制数据
+ */
 public class TestFileOutputStream {
     public static void main(String[] args) {
         test01();
