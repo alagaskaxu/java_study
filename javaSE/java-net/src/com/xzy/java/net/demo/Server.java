@@ -75,7 +75,7 @@ public class Server {
     /**
      * 得到客户端数据和确认标记
      * @param socket
-     * @return
+     * @return flag
      */
     public static boolean getDataFromClient(Socket socket){
         boolean flag = true;    //服务器保持监听标志
@@ -119,7 +119,7 @@ public class Server {
     /**
      * 向客户端发送数据与确认标志
      * @param socket
-     * @return
+     * @return flag
      */
     public static boolean outDataToClient(Socket socket){
         boolean flag = true;
@@ -137,7 +137,7 @@ public class Server {
             scanner = new Scanner(System.in);
             String line = scanner.nextLine();
             line = URLEncoder.encode(line, "UTF-8");
-            out.println(line);
+            out.println(line+"\r\n");
             out.flush();
             //socket.shutdownOutput();   表示socket输出完成
         } catch (Exception e) {

@@ -99,7 +99,7 @@ public class Client {
             scanner = new Scanner(System.in);
             String line = scanner.nextLine();
             line = URLEncoder.encode(line, "UTF-8");
-            out.println(line);
+            out.println(line+"\r\n");
             out.flush();
             //socket.shutdownOutput();   表示客户端socket输出完成
         } catch (Exception e) {
@@ -130,7 +130,7 @@ public class Client {
     /**
      * 接收服务器返回的数据
      * @param socket
-     * @return
+     * @return flag
      */
     public static boolean getDataFromServer(Socket socket)
     {

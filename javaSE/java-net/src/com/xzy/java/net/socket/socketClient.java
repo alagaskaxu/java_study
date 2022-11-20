@@ -25,7 +25,8 @@ public class socketClient {
                 scanner = new Scanner(System.in);
                 String line = scanner.nextLine();
                 line = URLEncoder.encode(line,"UTF-8");
-                out.print(line);
+                //服务端reader.readLine()读取到\r或\n时才会解除阻塞
+                out.print(line+"\r\n");
                 out.flush();
                 //socket.shutdownOutput();    //关闭此套接字的输出流,表示客户端socket输出完成
             } catch (Exception e) {
