@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <!-- 自定义Mapper相关类路径的别名,不区分大小写 -->
+    <typeAliases>
+        <typeAlias type="com.xzy.mybatis.entity.Emp" alias="emp"/>
+        <typeAlias type="com.xzy.mybatis.entity.Dep" alias="dep"/>
+        <!-- 定义设定了注解的包的路径 -->
+        <package name="com.xzy.mybatis.entity"/>
+    </typeAliases>
+    <!--配置数据库环境-->
+    <environments default="dev">
+        <environment id="dev">
+            <!--事务管理模式-->
+            <transactionManager type="JDBC"></transactionManager>
+            <!--数据源,数据库信息-->
+            <dataSource type="POOLED">
+                <property name="driver" value="com.mysql.cj.jdbc.Driver"/>
+                <property name="username" value="root"/>
+                <property name="password" value="root"/>
+                <property name="url"
+                          value="jdbc:mysql://localhost:3306/demo?serverTimezone=Asia/Shanghai&amp;characterEncoding=utf8&amp;useUnicode=true&amp;useSSL=false&amp;allowPublicKeyRetrieval=true"/>
+            </dataSource>
+        </environment>
+        <environment id="test">
+            <transactionManager type=""></transactionManager>
+            <dataSource type="">
+                <property name="driver" value="${driver}"/>
+            </dataSource>
+        </environment>
+        <environment id="prod">
+            <transactionManager type=""></transactionManager>
+            <dataSource type="">
+                <property name="driver" value="${driver}"/>
+            </dataSource>
+        </environment>
+    </environments>
+    <!--配置SQL Mapper.xml文件或SQLMapper接口-->
+    <mappers>
+        <!-- XML 方式和 xml+注解方式 只需要配置 xml文件路径-->
+        <mapper resource="mapper/DepMapper.xml"></mapper>
+        <mapper resource="mapper/EmpMapper.xml"></mapper>
+        <!--纯注解方式要配置Mapper接口的类路径    -->
+        <!-- <mapper class="com.xzy.mybatis.mapper.EmpMapper"></mapper> -->
+    </mappers>
+</configuration>

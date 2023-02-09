@@ -1,0 +1,26 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+    <!--配置员工对象-->
+    <bean id="emp" class="com.xzy.spring.ioc.entity.Emp" init-method="m1" destroy-method="m2">
+        <property name="name">
+            <value>莉莉</value>
+        </property>
+        <property name="sex">
+            <value>2</value>
+        </property>
+    </bean>
+    <!-- scope:singleton 单例模式,默认模式,在spring配置文件加载时就会创建一个对象,且一直使用同一个对象-->
+    <!-- scope:prototype 多例模式,在spring配置文件加载时不会被创建,使用到时,每次创建一个新的对象-->
+    <bean id="dep" class="com.xzy.spring.ioc.entity.Dep" scope="prototype">
+        <property name="depName">
+            <value>开发部</value>
+        </property>
+    </bean>
+</beans>

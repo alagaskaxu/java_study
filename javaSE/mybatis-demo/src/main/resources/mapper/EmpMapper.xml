@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xzy.mybatis.mapper.EmpMapper">
+    <!-- 别名 -->
+    <resultMap id="empMap" type="emp">
+        <id property="empId" column="emp_id"/>
+        <result property="empCode" column="emp_code"/>
+        <result property="empName" column="emp_name"/>
+        <result property="idCard" column="idcard"/>
+        <result property="depId" column="dep_id"/>
+        <!--关联查询部门,需要外键字段-->
+        <association property="dep" column="dep_id" select="dep.selectById"/>
+    </resultMap>
+    <!--利用注解和xml方式,namespace为 设定了注解的类的路径-->
+    <select id="selectList" resultType="com.xzy.mybatis.entity.Emp">
+        select `emp_id`   as empId,
+               `emp_code` as empCode,
+               `emp_name` as empName,
+               `sex`,
+               `idcard`,
+               `mobile`,
+               `birthday`,
+               `money`,
+               `dep_id`   as depId
+        from `t_emp`
+        where `sex` = #{sex}
+          and `dep_id` = #{dep_id}
+    </select>
+    <!-- 传实体类,动态多条件查询与模糊查询like. tips: #{}使用?占位符替换sql语句; ${} 直接将对应的值传入sql语句 -->
+    <select id="selectListByEmp" resultType="com.xzy.mybatis.entity.Emp">
+        <![CDATA[
+        select `emp_id`   as empId,
+               `emp_code` as empCode,
+               `emp_name` as empName,
+               `sex`,
+               `idcard`,
+               `mobile`,
+               `birthday`,
+               `money`,
+               `dep_id`   as depId
+        from `t_emp`
+        ]]>
+        <where>
+            --     empCode不为空且不是空串,则动态添加sql语句的条件
+            <if test="empCode!=null and ''!=empCode">
+                <![CDATA[and `emp_Code` = #{empCode}]]>
+            </if>
+            <if test="empName!=null">
+                <![CDATA[and `emp_Name` like '%${empName}%']]>
+            </if>
+            <if test="sex!=null">
+                <![CDATA[and `sex` = #{sex}]]>
+            </if>
+            <if test="mobile!=null">
+                <![CDATA[and `mobile` = #{mobile}]]>
+            </if>
+            <if test="depId!=null">
+                <![CDATA[and `dep_id` = #{depId}]]>
+            </if>
+        </where>
+    </select>
+    <select id="selectListByDepId" resultType="com.xzy.mybatis.entity.Emp">
+        <![CDATA[
+        select `emp_id`   as empId,
+               `emp_code` as empCode,
+               `emp_name` as empName,
+               `sex`,
+               `idcard`,
+               `mobile`,
+               `birthday`,
+               `money`,
+               `dep_id`   as depId
+        from `t_emp`
+        where `dep_id` = #{dep_id}
+        ]]>
+    </select>
+
+    <select id="selectListByMoney" resultType="com.xzy.mybatis.entity.Emp">
+        <!-- CDATA内的代码所包含的内容将表示为纯文本,代码文本会被解析器忽略,即一些><类的符号不会解析成<标签> -->
+        <![CDATA[
+        select `emp_id`   as empId,
+               `emp_code` as empCode,
+               `emp_name` as empName,
+               `sex`,
+               `idcard`,
+               `mobile`,
+               `birthday`,
+               `money`,
+               `dep_id`   as depId
+        from `t_emp`
+        where `money` < #{money}
+          and `dep_id` = #{dep_id}
+        ]]>
+    </select>
+
+
+    <insert id="insertEmp">
+        insert into `t_emp` (`emp_code`, `emp_name`, `sex`, `idcard`, `mobile`, `birthday`, `money`, `dep_id`)
+        values (#{empCode}, #{empName}, #{sex}, #{idCard}, #{mobile}, #{birthday}, #{money}, #{depId})
+    </insert>
+
+    <!-- 使用Map根据部门ID修改员工月薪,手机号-->
+    <update id="updateByMap">
+        update `t_emp`
+        set `money`  = #{money},
+            `mobile` = #{mobile}
+        where `emp_id` = #{emp_id}
+    </update>
+    <select id="selectById" resultType="emp" resultMap="empMap">
+        <![CDATA[
+        select `emp_id`,
+               `emp_code`,
+               `emp_name`,
+               `sex`,
+               `idcard`,
+               `mobile`,
+               `birthday`,
+               `money`,
+               `dep_id`
+        from `t_emp`
+        where `emp_id` = #{value}
+        ]]>
+    </select>
+</mapper>

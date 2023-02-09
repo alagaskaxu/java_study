@@ -1,0 +1,104 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+    <context:property-placeholder location="classpath:jdbc.properties"
+                                  ignore-unresolvable="true"></context:property-placeholder>
+    <!--配置数据源-->
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" destroy-method="close">
+        <!--数据库连接基本信息-->
+        <property name="driverClassName">
+            <value>${com.xzy.jdbc.driverClass}</value>
+        </property>
+        <property name="username">
+            <value>${com.xzy.user}</value>
+        </property>
+        <property name="password">
+            <value>${com.xzy.password}</value>
+        </property>
+        <property name="url">
+            <value>${com.xzy.jdbc.url}</value>
+        </property>
+        <property name="initialSize">
+            <value>10</value>
+        </property>
+        <property name="maxActive">
+            <value>20</value>
+        </property>
+        <property name="minIdle">
+            <value>10</value>
+        </property>
+        <property name="maxWait">
+            <value>15000</value>
+        </property>
+    </bean>
+    <!--sqlSessionFactory-->
+    <bean id="sqlSessionFactory" class="com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean">
+        <property name="dataSource">
+            <ref bean="dataSource"/>
+        </property>
+        <!--配置实体类扫描包-->
+        <property name="typeAliasesPackage">
+            <value>com.xzy.sm.entity</value>
+        </property>
+        <!--注册SQL mapper.xml文件-->
+        <property name="mapperLocations">
+            <value>classpath:mapper/*.xml</value>
+        </property>
+    </bean>
+    <!--Mapper接口扫描器-->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="sqlSessionFactoryBeanName">
+            <value>sqlSessionFactory</value>
+        </property>
+        <!--mapper接口所在包-->
+        <property name="basePackage">
+            <value>com.xzy.sm.mapper</value>
+        </property>
+    </bean>
+    <!--配置spring事务管理器-->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource">
+            <ref bean="dataSource"/>
+        </property>
+    </bean>
+    <!--开启注解式的事务-->
+    <!-- <tx:annotation-driven transaction-manager="transactionManager"></tx:annotation-driven>-->
+    <context:component-scan base-package="com.xzy.sm.service"></context:component-scan>
+    <!-- 事务通知或增强模式-->
+    <tx:advice transaction-manager="transactionManager" id="transactionAdvice">
+        <tx:attributes>
+            <!--所有select方法-->
+            <tx:method name="get*" propagation="REQUIRED" read-only="true"/>
+            <tx:method name="select*" propagation="REQUIRED" read-only="true"/>
+            <tx:method name="query*" propagation="REQUIRED" read-only="true"/>
+            <tx:method name="find*" propagation="REQUIRED" read-only="true"/>
+            <tx:method name="search*" propagation="REQUIRED" read-only="true"/>
+            <!--所有insert方法-->
+            <tx:method name="insert*" propagation="REQUIRED" rollback-for="exception"/>
+            <tx:method name="create*" propagation="REQUIRED" rollback-for="exception"/>
+            <tx:method name="add*" propagation="REQUIRED" rollback-for="exception"/>
+            <!--所有delete方法-->
+            <tx:method name="remove*" propagation="REQUIRED" rollback-for="exception"/>
+            <tx:method name="del*" propagation="REQUIRED" rollback-for="exception"/>
+            <tx:method name="delete*" propagation="REQUIRED" rollback-for="exception"/>
+            <!--所有update方法-->
+            <tx:method name="up*" propagation="REQUIRED" rollback-for="exception"/>
+            <tx:method name="update*" propagation="REQUIRED" rollback-for="exception"/>
+            <tx:method name="modify*" propagation="REQUIRED" rollback-for="exception"/>
+            <!--其他方法-->
+            <tx:method name="*" propagation="REQUIRED" read-only="true"/>
+        </tx:attributes>
+    </tx:advice>
+    <!--事务AOP配置-->
+    <aop:config>
+        <aop:pointcut id="transactionPointCut" expression="execution(* com.xzy.sm.service.*.*(..))"/>
+        <aop:advisor advice-ref="transactionAdvice" pointcut-ref="transactionPointCut"/>
+    </aop:config>
+</beans>

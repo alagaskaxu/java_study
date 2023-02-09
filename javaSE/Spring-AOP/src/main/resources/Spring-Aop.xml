@@ -1,0 +1,33 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+    <bean id="sqlSessionFactory" class="com.xzy.spring.aop.util.SqlSessionFactoryBean"
+          factory-method="createSqlSessionFactory"></bean>
+    <context:component-scan base-package="com.xzy.spring.aop.aspect"/>
+    <context:component-scan base-package="com.xzy.spring.aop.dao"/>
+    <context:component-scan base-package="com.xzy.spring.aop.service"/>
+    <!--AOP配置,xml方式-->
+    <!--<aop:config>
+        &lt;!&ndash;配置切点,即条件&ndash;&gt;
+        <aop:pointcut id="servicePointcut" expression="execution(* com.xzy.spring.aop.service.*.*(..)) and not execution(* com.xzy.spring.aop.service.ISysLogService.*(..))"/>
+        <aop:aspect ref="serviceAspect">
+            &lt;!&ndash;配置增强或通知&ndash;&gt;
+            &lt;!&ndash; pointcut-ref设置共享的配置好的切点(条件)映射 &ndash;&gt;
+            <aop:after-returning method="afterReturning" pointcut-ref="servicePointcut"/>
+            &lt;!&ndash; pointcut设置特殊的手动自定义的切点(条件) &ndash;&gt;
+            &lt;!&ndash; <aop:after-returning method="afterReturning" pointcut="execution(* com.xzy.spring.aop.service.*.*(..))"/> &ndash;&gt;
+            <aop:after-throwing method="afterThrows" pointcut-ref="servicePointcut" throwing="e"/>
+            <aop:around method="aroundServiceMethod" pointcut-ref="servicePointcut"/>
+        </aop:aspect>
+    </aop:config>-->
+
+    <!--使用注解式配置aop,要配置代理-->
+    <!--配置aop代理-->
+    <aop:aspectj-autoproxy/>
+</beans>

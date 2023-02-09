@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dep">
+    <!-- 配置字段与实体类属性对应映射的规则 type:数据库对象转成java对象类型的类路径:包名.类名 -->
+    <resultMap id="depMap" type="com.xzy.mybatis.entity.Dep">
+        <!-- 主键映射 property:实体类属性名; column:数据库字段名; javaType:自定义转成java时的数据的类型(默认java类型和数据库类型自动转成一样的)-->
+        <id property="depId" column="dep_id"/>
+        <result property="depCode" column="dep_code" javaType="String"/>
+        <result property="depName" column="dep_name"/>
+        <result property="depState" column="dep_state"/>
+        <!--关联查询员工 1:N , 填写主键字段-->
+        <collection property="empList" column="dep_id" select="com.xzy.mybatis.mapper.EmpMapper.selectListByDepId"/>
+    </resultMap>
+    <insert id="insertDep" parameterType="com.xzy.mybatis.entity.Dep">
+        insert into `t_dep` (`dep_code`, `dep_name`, `dep_state`)
+        values (#{depCode,jdbcType=VARCHAR}, #{depName}, #{depState});
+--  一般不用; #{depCode,jdbcType=VARCHAR};
+--  depCode:java里的类型;
+--  VARCHAR 表示为jdbc占位符对应的类型(数据库的类型),强调mybatis框架和jdbc应该用什么类型转换
+    </insert>
+    <!--根据ID删除部门-->
+    <delete id="deleteById" parameterType="int">
+        delete
+        from `t_dep`
+        where `dep_id` = #{value};
+    </delete>
+    <!--根据ID修改-->
+    <update id="updateById" parameterType="com.xzy.mybatis.entity.Dep">
+        update `t_dep`
+        set `dep_state` = #{depState}
+        where `dep_id` = #{depId};
+    </update>
+    <!--根据部门ID查询部门的信息 ,利用手动映射关系 empDao-->
+    <select id="selectById" resultMap="depMap" resultType="com.xzy.mybatis.entity.Dep">
+        select `dep_id`, `dep_code`, `dep_name`, `dep_state`
+        from `t_dep`
+        where `dep_id` = #{value};
+    </select>
+    <!-- 类路径使用config自定义的别名 -->
+    <select id="selectList" resultType="dep">
+        select `dep_id` as depId, `dep_code` as depCode, `dep_name` as depName, `dep_state` as depState
+        from `t_dep`
+        where `dep_state` = #{dep_state};
+    </select>
+</mapper>

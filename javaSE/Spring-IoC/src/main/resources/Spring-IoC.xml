@@ -1,0 +1,122 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+    <!--配置学生DAO-->
+    <bean id="studentDao" class="com.xzy.spring.ioc.dao.impl.StudentDaoImpl"/>
+    <!--配置学生Service-->
+    <bean id="studentService" name="stuService" class="com.xzy.spring.ioc.service.impl.StudentServiceImpl">
+        <!--通过setStudentDao方法进行依赖注入-->
+        <property name="studentDao" ref="studentDao">
+            <!--方法一: <bean class="com.xzy.spring.ioc.dao.impl.StudentDaoImpl"/> -->
+            <!--方法二: <ref bean="studentDao"/> -->
+        </property>
+    </bean>
+    <bean id="studentService2" class="com.xzy.spring.ioc.service.impl.StudentServiceImpl">
+        <!--通过构造方法进行依赖注入-->
+        <constructor-arg index="0">
+            <ref bean="studentDao"/>
+        </constructor-arg>
+    </bean>
+    <!--配置学生对象-->
+    <bean id="xiaoming" class="com.xzy.spring.ioc.entity.Student">
+        <property name="stuId">
+            <!--值注入-->
+            <value>1</value>
+        </property>
+        <property name="name">
+            <value>小明</value>
+        </property>
+        <property name="stuNo">
+            <value>190201</value>
+        </property>
+        <property name="birthday">
+            <value>11/11/2009</value>
+        </property>
+        <property name="sex">
+            <value>1</value>
+        </property>
+        <property name="edus">
+            <!--数组-->
+            <array>
+                <value>2001-2007 六点半小学</value>
+                <value>2008-2011 中学</value>
+                <value>2011-2014 大学</value>
+            </array>
+        </property>
+        <!-- List -->
+        <property name="hobbyList">
+            <list>
+                <value>money</value>
+                <value>game</value>
+                <value>旅游</value>
+                <value>武器</value>
+            </list>
+        </property>
+        <!-- set -->
+        <property name="familySet">
+            <set>
+                <value>父亲</value>
+                <value>母亲</value>
+                <value>爷爷</value>
+                <value>奶奶</value>
+            </set>
+        </property>
+        <!-- map -->
+        <property name="jobMap">
+            <map>
+                <entry key="2017" value="六点半公司"/>
+                <entry key="2019">
+                    <value>七点半公司</value>
+                </entry>
+                <entry>
+                    <key>
+                        <value>2020</value>
+                    </key>
+                    <value>七点公司</value>
+                </entry>
+            </map>
+        </property>
+        <property name="cityProps">
+            <props>
+                <prop key="nanjing">南京</prop>
+                <prop key="shanghai">上海</prop>
+            </props>
+        </property>
+        <property name="clas">
+            <ref bean="clas"/>
+        </property>
+    </bean>
+    <bean id="clas" class="com.xzy.spring.ioc.entity.Clas">
+        <property name="classId">
+            <value>1</value>
+        </property>
+        <property name="className">
+            <value>计算机二班</value>
+        </property>
+        <property name="classNo">
+            <value>1902</value>
+        </property>
+    </bean>
+    <!--利用静态工厂方法配置汽车对象-->
+    <bean id="car1" class="com.xzy.spring.ioc.util.MyCarStaticFactory" factory-method="createNewCar">
+    </bean>
+    <!--配置汽车实例工厂对象-->
+    <bean id="carFactory" class="com.xzy.spring.ioc.util.MyCarInstanceFactory"/>
+    <!--利用实例工厂方法创建汽车对象-->
+    <bean id="car2" factory-bean="carFactory" factory-method="createNewCar"></bean>
+    <!--配置员工对象-->
+    <bean id="emp" class="com.xzy.spring.ioc.entity.Emp" init-method="m1" destroy-method="m2">
+        <property name="name">
+            <value>莉莉</value>
+        </property>
+        <property name="sex">
+            <value>2</value>
+        </property>
+    </bean>
+</beans>
